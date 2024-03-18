@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Модели - Средства <br> Веб-программирования <br> 23-24</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u041c\u043e\u0434\u0435\u043b\u0438";
+        var mkdocs_page_input_path = "1/models.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Средства <br> Веб-программирования <br> 23-24
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">ЛР 1</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../description/">Описание</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../database/">База данных</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Модели</a>
+    <ul class="current">
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../endpoints/">Эндпоинты</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../authorization/">Авторизация</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../practice/">Практика</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Средства <br> Веб-программирования <br> 23-24</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+          <li>ЛР 1 &raquo;</li>
+      <li class="breadcrumb-item active">Модели</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="1-fastapi">ЛР 1. Реализация серверного приложения FastAPI.</h1>
+<h1 id="_1">Модели</h1>
+<p><br></p>
+<h2 id="-trip">Поездка - Trip</h2>
+<p><em>trip_models.py</em></p>
+<pre><code>class StatusType(Enum):
+    open = &quot;open&quot;
+    closed = &quot;closed&quot;
+    cancelled = &quot;cancelled&quot;
+
+
+class TripDefault(SQLModel):
+    status: StatusType = StatusType.open
+    member_capacity: Optional[int] = Field(default=None, ge=0)
+
+
+class Trip(TripDefault, table=True):
+    id: int = Field(default=None, primary_key=True)
+    members: Optional[List[&quot;UserTripLink&quot;]] = Relationship(back_populates=&quot;trip&quot;, 
+                                                           sa_relationship_kwargs={&quot;cascade&quot;: &quot;all, delete&quot;})
+    steps: Optional[List[&quot;Step&quot;]] = Relationship(back_populates=&quot;trip&quot;, 
+                                                 sa_relationship_kwargs={&quot;cascade&quot;: &quot;all, delete&quot;})
+
+class TripDetailed(TripDefault):
+    members: Optional[List[&quot;UserTripLinkUsers&quot;]] = None
+    steps: Optional[List[&quot;StepDetailed&quot;]] = None
+</code></pre>
+<p><br></p>
+<h2 id="-user">Пользователь - User</h2>
+<p><em>user_models.py</em></p>
+<pre><code>class GenderType(Enum):
+    undefined = &quot;-&quot;
+    female = &quot;f&quot;
+    male = &quot;m&quot;
+
+
+class UserDefault(SQLModel):
+    username: str = Field(index=True, unique=True)
+    first_name: str
+    last_name: str
+    gender: GenderType = &quot;-&quot;
+    age: int = Field(ge=0, le=130)
+    telephone: str = Field(regex=&quot;\+?\d{7,11}&quot;)
+    email: EmailStr = Field(sa_type=AutoString)
+    bio: Optional[str] = &quot;&quot;
+
+
+class User(UserDefault, table=True):
+    id: int = Field(default=None, primary_key=True)
+    password: str = Field(min_length=8, max_length=60)
+    registered: datetime.datetime = datetime.datetime.now()
+    is_admin: bool = False
+    trips: Optional[List[&quot;UserTripLink&quot;]] = Relationship(back_populates=&quot;user&quot;, 
+                                                         sa_relationship_kwargs={&quot;cascade&quot;: &quot;all, delete&quot;})
+
+
+class UserInput(SQLModel):
+    username: str = Field(index=True, unique=True)
+    password: str = Field(min_length=8, max_length=60)
+    password2: str = Field(min_length=8, max_length=60)
+    first_name: str
+    last_name: str
+    gender: GenderType = &quot;-&quot;
+    age: int = Field(ge=0, le=130)
+    telephone: str = Field(regex=&quot;\+?\d{7,11}&quot;)
+    email: EmailStr = Field(sa_type=AutoString)
+    bio: Optional[str] = &quot;&quot;
+
+    @validator('password2')
+    def check_match(cls, pwd, values, **kwargs):
+        if 'password' in values and pwd != values['password']:
+            raise ValueError(&quot;passwords don't match&quot;)
+        return pwd
+
+
+class UserLogin(SQLModel):
+    username: str
+    password: str
+
+
+class UserPwd(SQLModel):
+    old_password: str = Field(min_length=8, max_length=60)
+    new_password: str = Field(min_length=8, max_length=60)
+    new_password2: str = Field(min_length=8, max_length=60)
+</code></pre>
+<p><br></p>
+<h2 id="-usertriplink">Связь Пользователь-Поездка - UserTripLink</h2>
+<p>Ассоциативная сущность, соединяющая пользователя с поездкой
+<br><br>
+<em>usertriplink_models.py</em></p>
+<pre><code>class UserTripLinkDefault(SQLModel):
+    __table_args__ = (
+        UniqueConstraint(&quot;trip_id&quot;, &quot;user_id&quot;, name=&quot;unique pair of ids&quot;),
+    )
+    user_id: Optional[int] = Field(sa_column=Column(Integer,
+        ForeignKey(&quot;user.id&quot;, ondelete='CASCADE'), default=None))
+    trip_id: Optional[int] = Field(sa_column=Column(Integer,
+        ForeignKey(&quot;trip.id&quot;, ondelete='CASCADE'), default=None))
+    role: Optional[str]
+
+
+class UserTripLink(UserTripLinkDefault, table=True):
+    id: int = Field(default=None, primary_key=True)
+    user: &quot;User&quot; = Relationship(back_populates=&quot;trips&quot;)
+    trip: &quot;Trip&quot; = Relationship(back_populates=&quot;members&quot;)
+
+
+class UserTripLinkTrips(SQLModel):
+    role: Optional[str]
+    trip: &quot;TripDetailed&quot; = None
+
+
+class UserTripLinkUsers(SQLModel):
+    role: Optional[str]
+    user: &quot;UserDefault&quot; = None
+</code></pre>
+<p><br></p>
+<h2 id="-stay">Стоянка - Stay</h2>
+<p><em>stay_models.py</em></p>
+<pre><code>class AccomodationType(Enum):
+    hotel = &quot;hotel&quot;
+    hostel = &quot;hostel&quot;
+    apartments = &quot;apartments&quot;
+    couchsurfing = &quot;couchsurfing&quot;
+    tent = &quot;tent&quot;
+
+
+class StayDefault(SQLModel):
+    location: str
+    address: str
+    accomodation: AccomodationType
+
+
+class Stay(StayDefault, table=True):
+    id: int = Field(default=None, primary_key=True)
+    steps: Optional[List[&quot;Step&quot;]] = Relationship(back_populates=&quot;stay&quot;,
+                                                 sa_relationship_kwargs={&quot;cascade&quot;: &quot;all, delete&quot;})
+</code></pre>
+<p><br></p>
+<h2 id="-transition">Переезд - Transition</h2>
+<p><em>transiition_models.py</em></p>
+<pre><code>class TransportType(Enum):
+    plane = &quot;plane&quot;
+    train = &quot;train&quot;
+    ship = &quot;ship&quot;
+    ferry = &quot;ferry&quot;
+    bus = &quot;bus&quot;
+    car = &quot;car&quot;
+    motorbike = &quot;motorbike&quot;
+    bycicle = &quot;bycicle&quot;
+    walking = &quot;walking&quot;
+    hitchhiking = &quot;hitchhiking&quot;
+
+
+class TransitionDefault(SQLModel):
+    location_from: str
+    location_to: str
+    transport: TransportType
+
+
+class Transition(TransitionDefault, table=True):
+    id: int = Field(default=None, primary_key=True)
+    steps: Optional[List[&quot;Step&quot;]] = Relationship(back_populates=&quot;transition&quot;, 
+                                                 sa_relationship_kwargs={&quot;cascade&quot;: &quot;all, delete&quot;})
+</code></pre>
+<p><br></p>
+<h2 id="-step">Этап - Step</h2>
+<p>Ассоциативная сущность, соединяющая поездку со стоянкой или переездом
+<br><br>
+<em>step_models.py</em></p>
+<pre><code>class StepDefault(SQLModel):
+    trip_id: Optional[int] = Field(sa_column=Column(Integer,
+        ForeignKey(&quot;trip.id&quot;, ondelete='CASCADE'), default=None))
+    date_from: datetime = Field(ge=datetime.now())
+    date_to: datetime = Field(ge=datetime.now())
+    est_price: float = Field(default=0, ge=0)
+    stay_id: Optional[int] = Field(sa_column=Column(Integer,
+        ForeignKey(&quot;stay.id&quot;, ondelete='CASCADE'), default=None))
+    #OR
+    transition_id: Optional[int] = Field(sa_column=Column(Integer,
+        ForeignKey(&quot;transition.id&quot;, ondelete='CASCADE'), default=None))
+
+    @validator('date_to')
+    def from_lt_to(cls, date, values, **kwargs):
+            if 'date_from' in values and date &lt; values['date_from']:
+                raise ValueError(&quot;date_to should be later than date_from&quot;)
+            return date
+
+
+class Step(StepDefault, table=True):
+    id: int = Field(default=None, primary_key=True)
+    trip: &quot;Trip&quot; = Relationship(back_populates=&quot;steps&quot;)
+    stay: Optional[&quot;Stay&quot;] = Relationship(back_populates=&quot;steps&quot;)
+    transition: Optional[&quot;Transition&quot;] = Relationship(back_populates=&quot;steps&quot;)
+
+
+class StepDetailed(StepDefault):
+    trip: &quot;Trip&quot; = None
+    stay: Optional[&quot;Stay&quot;] = None
+    transition: Optional[&quot;Transition&quot;] = None
+</code></pre>
+<p><br></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../database/" class="btn btn-neutral float-left" title="База данных"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../endpoints/" class="btn btn-neutral float-right" title="Эндпоинты">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../database/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../endpoints/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
