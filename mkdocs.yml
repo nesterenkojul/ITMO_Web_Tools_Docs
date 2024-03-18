@@ -1,0 +1,11 @@
+site_name: Средства <br> Веб-программирования <br> 23-24
+dev_addr: '127.0.0.1:8001'
+theme: readthedocs
+nav:
+  - 'ЛР 1':
+      - "Описание": 1/description.md
+      - "База данных": 1/database.md
+      - "Модели": 1/models.md
+      - "Эндпоинты": 1/endpoints.md
+      - "Авторизация": 1/authorization.md
+      - "Практика": 1/practice.md
