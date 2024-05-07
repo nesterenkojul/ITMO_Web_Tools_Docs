@@ -5,5 +5,9 @@
 
 ## [Лабораторная 1](1/description.md)
 
+<br>
+
+## [Лабораторная 2](2/description.md)
+
 <br/>
 <br/>

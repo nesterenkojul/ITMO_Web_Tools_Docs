@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Задание 2 - Средства Веб-программирования 23/24</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Средства Веб-программирования 23/24</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ЛР 1 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../1/description/" class="dropdown-item">Описание</a>
+</li>
+                                    
+<li>
+    <a href="../../1/database/" class="dropdown-item">База данных</a>
+</li>
+                                    
+<li>
+    <a href="../../1/models/" class="dropdown-item">Модели</a>
+</li>
+                                    
+<li>
+    <a href="../../1/endpoints/" class="dropdown-item">Эндпоинты</a>
+</li>
+                                    
+<li>
+    <a href="../../1/authorization/" class="dropdown-item">Авторизация</a>
+</li>
+                                    
+<li>
+    <a href="../../1/practice/" class="dropdown-item">Практика</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">ЛР 2 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../description/" class="dropdown-item">Описание</a>
+</li>
+                                    
+<li>
+    <a href="../theory/" class="dropdown-item">Теория</a>
+</li>
+                                    
+<li>
+    <a href="../task1/" class="dropdown-item">Задание 1</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">Задание 2</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../task1/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#2" class="nav-link">ЛР 2. Потоки. Процессы. Асинхронность.</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#2_1" class="nav-link">Задание 2</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#_1" class="nav-link">Базовая реализация</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_4" class="nav-link">Многопроцессорность</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_5" class="nav-link">Многопоточность</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_6" class="nav-link">Асинхронность</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_9" class="nav-link">Выводы</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="2">ЛР 2. Потоки. Процессы. Асинхронность.</h1>
+<h1 id="2_1">Задание 2</h1>
+<p><br></p>
+<p>Задача - спарсить даннные с нескольких сайтов и сохранить их в базу данных.</p>
+<p>База данных взята из лабораторной работы №1 (тема - сервис для планирования совместных путешествий), а именно две таблицы:</p>
+<ul>
+<li>
+<p>Stay</p>
+</li>
+<li>
+<p>Transition</p>
+</li>
+</ul>
+<p>Для каждой таблицы найдены по три сайта-источника данных, итого 6 ссылок:</p>
+<pre><code>URLS = {
+    &quot;planes&quot;: &quot;https://buenos-aires-international-airport.com/flights/departures/&quot;,
+    &quot;cruises&quot;: &quot;https://www.cruisecritic.co.uk/find-a-cruise/port-dubrovnik&quot;,
+    &quot;trains&quot;: &quot;https://www.thetrainline.com/&quot;,
+    &quot;airbnb&quot;: &quot;https://www.airbnb.co.uk/?tab_id=home_tab&amp;refinement_paths%5B%5D=%2Fhomes&amp;search_mode=flex_destinations_search&amp;flexible_trip_lengths%5B%5D=one_week&amp;location_search=MIN_MAP_BOUNDS&amp;monthly_start_date=2024-06-01&amp;monthly_length=3&amp;monthly_end_date=2024-09-01&amp;price_filter_input_type=2&amp;channel=EXPLORE&amp;search_type=category_change&amp;price_filter_num_nights=5&amp;category_tag=Tag%3A8225&quot;,
+    &quot;hotels&quot;: &quot;https://www.booking.com/hotel/index.en-gb.html?aid=397594&amp;label=gog235jc-1BCAEiBWhvdGVsKIICOOgHSDNYA2i2AYgBAZgBCbgBB8gBDdgBAegBAYgCAagCA7gC1I-YsQbAAgHSAiQ4MmE2NmQxMi02MGYwLTQzNzgtOTZjYy0zMDhhZTdiZDhkZmHYAgXgAgE&amp;sid=bec09db0ecce614ac10826c52f468f76&quot;,
+    &quot;hostels&quot;: &quot;https://www.booking.com/hostels/index.en-gb.html?aid=397594&amp;label=gog235jc-1BCAEiBWhvdGVsKIICOOgHSDNYA2i2AYgBAZgBCbgBB8gBDdgBAegBAYgCAagCA7gC1I-YsQbAAgHSAiQ4MmE2NmQxMi02MGYwLTQzNzgtOTZjYy0zMDhhZTdiZDhkZmHYAgXgAgE&amp;sid=bec09db0ecce614ac10826c52f468f76&amp;from_booking_home_promotion=1&amp;&quot;,
+    }
+</code></pre>
+<p><br></p>
+<h2 id="_1">Базовая реализация</h2>
+<h3 id="site-specific">Site-specific скрейпинг</h3>
+<p><em>Task2/parse_basic.py</em></p>
+<pre><code>def parse_planes(soup):
+    elems = soup.find_all(class_=&quot;menu-item-object-custom&quot;)
+    names = [r.text.split(' | ') for r in elems if '|' in r.text]
+    names = [' '.join(n[1].split()[:-2]) + ', ' + n[0] for n in names]
+    return [(&quot;Buenos Aires, Argentina&quot;, n, &quot;plane&quot;) for n in names]
+
+
+def parse_cruises(soup):
+    elems = soup.find_all(class_=&quot;css-18jw8gc&quot;) 
+    return [(e.text, &quot;Dubrovnik, Croatia&quot;, 'ship') for e in elems if e.text.isalpha()]
+
+
+def parse_trains(soup):
+    elems = soup.find_all(&quot;a&quot;, class_=&quot;route-suggestions-links&quot;)
+    texts = [e.text.split() for e in elems[:-5]]
+    return [(x[0], x[2], 'train') for x in texts if x[2][0].isupper()]
+
+
+def parse_airbnb(soup):
+    elems = soup.find_all(attrs={&quot;data-testid&quot;: &quot;listing-card-title&quot;})
+    locations = [e.text for e in elems]
+    return [(l, l, 'apartments') for l in locations]
+
+
+def parse_hotels(soup):
+    elems = soup.find_all(&quot;ul&quot;, class_=&quot;lp-hotel__explore_world_hotels&quot;)
+    names = []
+    locations = []
+    for elem in elems:
+        names.extend(elem.find_all(&quot;span&quot;, class_=&quot;bui-list__description-title&quot;))
+        locations.extend(elem.find_all(&quot;span&quot;, class_=&quot;bui-list__description-subtitle&quot;))
+    names = [n.decode_contents() for n in names]
+    locations = [l.decode_contents().split() for l in locations]
+    locations = [' '.join(filter(lambda x: re.match(&quot;[A-Za-z],?&quot;, x), l)) for l in locations]
+    pairs = list(zip(locations, names))
+    trios = [(p[0], p[1], 'hotel') for p in pairs]
+    return trios  
+
+
+def parse_hostels(soup):
+    names = soup.find_all(&quot;a&quot;, class_=&quot;bui-card__title&quot;)
+    locations = soup.find_all(&quot;p&quot;, class_=&quot;bui-card__subtitle&quot;)
+    names = [n.text for n in names]
+    locations = [l.decode_contents().split() for l in locations]
+    locations = [' '.join(filter(lambda x: re.match(&quot;[A-Za-z],?&quot;, x), l)) for l in locations]
+    pairs = list(zip(locations, names))
+    trios = [(p[0], p[1], 'hostel') for p in pairs]
+    return trios
+</code></pre>
+<h3 id="_2">Базовая функция для синхронного скрейпинга</h3>
+<p><em>Task2/parse_basic.py</em></p>
+<pre><code>def parse_and_save(key, url):
+    try:
+        page = requests.get(url)
+        soup = BeautifulSoup(page.text, 'html.parser')
+        if key == &quot;planes&quot;:
+            data = parse_planes(soup)
+            save_transitions(data)
+        if key == &quot;cruises&quot;: 
+            data = parse_cruises(soup)
+            save_transitions(data)
+        if key == &quot;trains&quot;: 
+            data = parse_trains(soup)
+            save_transitions(data)
+        if key == &quot;airbnb&quot;:
+            data = parse_airbnb(soup)
+            save_stays(data)
+        if key == &quot;hotels&quot;: 
+            data = parse_hotels(soup)
+            save_stays(data)
+        if key == &quot;hostels&quot;: 
+            data = parse_hostels(soup)
+            save_stays(data) 
+    except Exception as e:
+        print(&quot;OH NO, EXCEPTION!&quot;)
+        raise e
+</code></pre>
+<h3 id="_3">Синхронное подключение к БД</h3>
+<p><em>Task2/db_conn.py</em></p>
+<pre><code>engine = create_engine(db_url, echo=False)
+session = Session(engine)
+
+
+def save_stays(data):
+    for d in data:
+        statement = select(Stay).where(Stay.location == d[0],
+                                       Stay.address == d[1],
+                                       Stay.accomodation == d[2])          
+        existing = session.exec(statement).all()
+        if not existing:
+            stay = StayDefault(location = d[0],
+                               address = d[1],
+                               accomodation = d[2])
+            stay = Stay.model_validate(stay)
+            session.add(stay)
+            session.commit()
+            session.refresh(stay)
+    session.close()
+    print(f&quot;Saved {len(data)} items into the STAY database&quot;)
+
+
+def save_transitions(data):
+    for d in data:
+        statement = select(Transition).where(Transition.location_from == d[0],
+                                             Transition.location_to == d[1],
+                                             Transition.transport == d[2])             
+        existing = session.exec(statement).all()
+        if not existing:
+            transition = TransitionDefault(location_from = d[0],
+                                        location_to = d[1],
+                                        transport = d[2])
+            transition = Transition.model_validate(transition)
+            session.add(transition)
+            session.commit()
+            session.refresh(transition)
+    session.close()
+    print(f&quot;Saved {len(data)} items into the TRANSITION database&quot;)
+</code></pre>
+<p><br></p>
+<p>Чтобы можно было распараллелить выполнение, разобьем задачу на подзадачи: случайно поделим список ссылок на подмножества. 
+Причем проверим несколько вариантов разбиения: 2, 3 и 6 подмножеств (то есть по 3, 2 или 1 ссылке на подзадачу).</p>
+<h2 id="_4">Многопроцессорность</h2>
+<p><em>Task2/parse_multiprocess.py</em></p>
+<pre><code>import random
+import pandas as pd
+from multiprocessing import Pool
+from time import time
+
+from parse_basic import *
+
+
+def parse_chunk(chunk):
+    for key, url in chunk:
+        parse_and_save(key, url)
+
+
+def check_n_splits(n):
+    print(n, &quot;SPLITS&quot;)
+    start = time()
+    keys = list(URLS.keys())
+
+    with Pool(n) as p:
+        random.shuffle(keys)
+        chunks = [keys[i:i + len(URLS) // n] for i in range(0, len(URLS), len(URLS) // n)]
+        chunks = [[(k, URLS[k]) for k in c] for c in chunks]
+        p.map(parse_chunk, chunks)
+    return n, time() - start
+</code></pre>
+<p><br></p>
+<h2 id="_5">Многопоточность</h2>
+<p><em>Task2/parse_threads.py</em></p>
+<pre><code>import random
+import threading
+from time import time
+import pandas as pd
+
+from parse_basic import *
+
+
+def parse_chunk(chunk):
+    for key, url in chunk:
+        parse_and_save(key, url)
+
+
+def check_n_splits(n):
+    print(n, &quot;SPLITS&quot;)
+    start = time()
+    keys = list(URLS.keys())
+    random.shuffle(keys)
+    chunks = [keys[i:i + len(URLS) // n] for i in range(0, len(URLS), len(URLS) // n)]
+    chunks = [[(k, URLS[k]) for k in c] for c in chunks]
+    threads = [threading.Thread(target=parse_chunk, kwargs={&quot;chunk&quot;: chunk}) 
+                                for chunk in chunks]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    return n, time() - start
+</code></pre>
+<p><br></p>
+<h2 id="_6">Асинхронность</h2>
+<h3 id="_7">Асинхронный скрейпинг</h3>
+<p><em>Task2/parse_async.py</em></p>
+<pre><code>import asyncio
+import aiohttp
+import random
+from time import time
+import pandas as pd
+
+from parse_basic import *
+from db_conn import save_stays_async, save_transitions_async
+
+
+async def parse_and_save_async(key, url):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as resp:
+            html = await resp.text()
+            soup = BeautifulSoup(html, 'html.parser')
+            if key == &quot;planes&quot;:
+                data = parse_planes(soup)
+                await save_transitions_async(data)
+            if key == &quot;cruises&quot;: 
+                data = parse_cruises(soup)
+                await save_transitions_async(data)
+            if key == &quot;trains&quot;: 
+                data = parse_trains(soup)
+                await save_transitions_async(data)
+            if key == &quot;airbnb&quot;:
+                data = parse_airbnb(soup)
+                await save_stays_async(data)
+            if key == &quot;hotels&quot;: 
+                data = parse_hotels(soup)
+                await save_stays_async(data)
+            if key == &quot;hostels&quot;: 
+                data = parse_hostels(soup)
+                await save_stays_async(data) 
+
+
+async def parse_chunk(chunk):
+    for key, url in chunk:
+        await parse_and_save_async(key, url)
+
+
+async def check_n_splits(n):
+    print(n, &quot;SPLITS&quot;)
+    start = time()
+    keys = list(URLS.keys())
+    random.shuffle(keys)
+    chunks = [keys[i:i + len(URLS) // n] for i in range(0, len(URLS), len(URLS) // n)]
+    chunks = [[(k, URLS[k]) for k in c] for c in chunks]
+    await asyncio.gather(*(parse_chunk(chunk) for chunk in chunks))
+    return n, time() - start
+
+
+if __name__ == &quot;__main__&quot;: 
+    results = {}
+    for n in [2, 3, 6]:
+        loop = asyncio.get_event_loop()
+        splits, extime = loop.run_until_complete(check_n_splits(n))
+        results[splits] = extime
+    print(pd.DataFrame({&quot;Splits&quot;: results.keys(), &quot;Execution Time&quot;: results.values()}))
+    print()
+</code></pre>
+<h3 id="_8">Асинхронное подключение к БД</h3>
+<p><em>Task2/db_conn.py</em></p>
+<pre><code>async_engine = create_async_engine(db_url_async, echo=False)
+async_session = sessionmaker(async_engine, class_=AsyncSession, expire_on_commit=False)
+
+
+async def save_stays_async(data):
+    async with async_session() as session:
+        for d in data:
+            statement = select(Stay).where(Stay.location == d[0],
+                                        Stay.address == d[1],
+                                        Stay.accomodation == d[2])          
+            existing = (await session.execute(statement)).all()
+            if not existing:
+                stay = StayDefault(location = d[0],
+                                address = d[1],
+                                accomodation = d[2])
+                stay = Stay.model_validate(stay)
+                session.add(stay)
+                await session.commit()
+    print(f&quot;Saved {len(data)} items into the STAY database&quot;)
+
+
+async def save_transitions_async(data):
+    async with async_session() as session:
+        for d in data:
+            statement = select(Transition).where(Transition.location_from == d[0],
+                                                Transition.location_to == d[1],
+                                                Transition.transport == d[2])             
+            existing = (await session.execute(statement)).all()
+            if not existing:
+                transition = TransitionDefault(location_from = d[0],
+                                            location_to = d[1],
+                                            transport = d[2])
+                transition = Transition.model_validate(transition)
+                session.add(transition)
+                await session.commit()
+
+    print(f&quot;Saved {len(data)} items into the TRANSITION database&quot;)
+</code></pre>
+<p><br></p>
+<h2 id="_9">Выводы</h2>
+<table>
+<thead>
+<tr>
+<th>Splits</th>
+<th>Basic</th>
+<th>Multiprocessing</th>
+<th>Threading</th>
+<th>Async</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>23.7892501</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>2</td>
+<td>-</td>
+<td>9.41433</td>
+<td>4.931119</td>
+<td>4.84545</td>
+</tr>
+<tr>
+<td>3</td>
+<td>-</td>
+<td>5.851309</td>
+<td>13.978662</td>
+<td>16.463624</td>
+</tr>
+<tr>
+<td>6</td>
+<td>-</td>
+<td>15.763105</td>
+<td>3.699792</td>
+<td>2.554284</td>
+</tr>
+</tbody>
+</table>
+<p>В этом задании мы работали с I/O-bound задачей, поэтому ожидалось, что многопоточность и асинхронность должны были хорошо справиться с оптимизацией. В принципе, так и вышло. Мы еще в первом задании увидели, что многопоточность и асинхронность очень похожи по времени выполнения, и здесь видно то же самое. Особенно интересно (и непонятно), что оба подхода "проседают" на 3 подзадачах. Тем не менее, на 2 и 6 подзадачах эти подходы значительно "переигрывают" и многопроцессорный, и синхронный подходы. Лучший результат дала асинхронность с 6 подзадачами.</p>
+<p>Стоит отметить, что в сравнении с базовой реализацией многопроцессорность также дает выигрыш во времени, однако при большом количестве процессов (здесь - 6), "менеджирование" процессов начинает забирать слишком много ресурсов, и время выполнения программы сильно увеличивается. </p>
+<p>В общем и целом, любой вариант распараллеливания выполнения программы (как с точки зрения подхода, так и с точки зрения количества подзадач) дает преимущество перед синхронной реализацией.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/jquery-3.6.0.min.js"></script>
+        <script src="../../js/bootstrap.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

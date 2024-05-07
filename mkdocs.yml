@@ -1,6 +1,6 @@
-site_name: Средства <br> Веб-программирования <br> 23-24
+site_name: Средства Веб-программирования 23/24
 dev_addr: '127.0.0.1:8001'
-theme: readthedocs
+theme: mkdocs
 nav:
   - 'ЛР 1':
       - "Описание": 1/description.md
@@ -9,3 +9,8 @@ nav:
       - "Эндпоинты": 1/endpoints.md
       - "Авторизация": 1/authorization.md
       - "Практика": 1/practice.md
+  - 'ЛР 2':
+      - "Описание": 2/description.md
+      - "Теория": 2/theory.md
+      - "Задание 1": 2/task1.md
+      - "Задание 2": 2/task2.md
